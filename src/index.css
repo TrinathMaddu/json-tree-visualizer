@@ -1,0 +1,13 @@
+body {
+  font-family: "Inter", sans-serif;
+  background-color: #f0f0f0;
+  margin: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
