@@ -1,0 +1,45 @@
+.jsonNode {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 12px;
+  font-weight: bold;
+  min-width: 120px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+.objectNode {
+  background-color: #e1f5fe;
+}
+.arrayNode {
+  background-color: #fff3e0;
+}
+.primitiveNode {
+  background-color: #e8f5e8;
+}
+.defaultNode {
+  background-color: #f5f5f5;
+}
+.nodeLabel {
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 4px;
+  color: #333;
+}
+.nodeValue {
+  font-size: 10px;
+  color: #666;
+  font-style: italic;
+  word-break: break-all;
+}
+.handleTarget {
+  background: transparent;
+  border: none;
+  opacity: 0;
+}
+.handleSource {
+  background: transparent;
+  border: none;
+  opacity: 0;
+}

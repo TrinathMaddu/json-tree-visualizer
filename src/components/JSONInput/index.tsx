@@ -20,7 +20,6 @@ const JSONInput = ({
   const handleSubmit = () => {
     try {
       const parsedData = JSON.parse(jsonInput)
-      setJsonInput(JSON.stringify(parsedData))
       setJsonData(parsedData)
       setError("")
     } catch (err) {
