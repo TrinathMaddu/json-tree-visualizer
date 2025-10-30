@@ -57,3 +57,30 @@
   font-size: 12px;
   font-weight: 500;
 }
+
+/* Dark theme overrides for node backgrounds */
+body.theme-dark .objectNode {
+  background-color: #0d3b4a;
+}
+body.theme-dark .arrayNode {
+  background-color: #4a3820;
+}
+body.theme-dark .primitiveNode {
+  background-color: #184018;
+}
+body.theme-dark .defaultNode {
+  background-color: #2a2a2a;
+}
+body.theme-dark .selectedNode {
+  background-color: #0e2a1a;
+}
+body.theme-dark .nodeValue {
+  color: #ffb3b3;
+}
+body.theme-dark .nodeLabel {
+  color: #ffffff;
+}
+body.theme-dark .selectedNode {
+  border: 1.5px solid #19d2c2;
+  box-shadow: rgb(96 103 111) 0px 12px 30px -10px;
+}

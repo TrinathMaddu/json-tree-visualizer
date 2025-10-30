@@ -8,6 +8,7 @@ import {
   Panel
 } from "@xyflow/react"
 import { useEffect, useRef, useState } from "react"
+import { useTheme } from "../../context/ThemeContext"
 import {
   appendRootNode,
   getDescendantNodes,
@@ -32,12 +33,14 @@ const JSONTreeFlow = ({
 
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([])
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([])
+  const { theme } = useTheme()
   const [pathToNodeIdMap, setPathToNodeIdMap] = useState<Map<string, string>>(
     new Map()
   )
   const [copiedNodeId, setCopiedNodeId] = useState<string>("")
   const [showCopiedMessage, setShowCopiedMessage] = useState<boolean>(false)
   const copiedMessageTimeoutRef = useRef<number | null>(null)
+  const layoutDone = useRef(false)
 
   useEffect(() => {
     if (showCopiedMessage) {
@@ -131,7 +134,25 @@ const JSONTreeFlow = ({
       setEdges(layouted.edges as Edge[])
       setPathToNodeIdMap(pathToNodeIdMap)
     }
+
+    return () => {
+      layoutDone.current = false
+    }
   }, [jsonData, setEdges, setNodes])
+
+  useEffect(() => {
+    if (layoutDone.current || nodes.length === 0) return
+
+    const allMeasured = nodes.every(
+      (n) => n.measured?.width && n.measured?.height
+    )
+    if (allMeasured) {
+      const layouted = getLayoutedElements(nodes, edges)
+      setNodes(layouted.nodes as Node[])
+      setEdges(layouted.edges as Edge[])
+      layoutDone.current = true
+    }
+  }, [nodes, edges])
 
   useEffect(() => {
     if (nodePathToSearch) {
@@ -162,6 +183,7 @@ const JSONTreeFlow = ({
         jsonNode: JsonNode
       }}
       defaultEdgeOptions={DEFAULT_EDGE_OPTIONS}
+      colorMode={theme}
     >
       <Background />
       <Controls showZoom={true} showFitView={true} showInteractive={false} />

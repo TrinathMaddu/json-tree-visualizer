@@ -1,6 +1,27 @@
+:root {
+  --bg: #ffffff;
+  --text-primary: #213547;
+  --panel: #ffffff;
+  --placeholder: #666;
+}
+
+body.theme-dark {
+  --bg: #3c3c3c;
+  --text-primary: rgba(255, 255, 255, 0.87);
+  --panel: #282828;
+  --placeholder: #b0b0b0;
+}
+
+body.theme-light {
+  --bg: #f0f0f0;
+  --text-primary: #213547;
+  --panel: #ffffff;
+  --placeholder: #666;
+}
+
 body {
   font-family: "Inter", sans-serif;
-  background-color: #f0f0f0;
+  background-color: var(--bg);
   margin: 0;
 }
 

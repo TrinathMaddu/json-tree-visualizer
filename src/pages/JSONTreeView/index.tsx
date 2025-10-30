@@ -5,6 +5,7 @@ import JSONInput from "../../components/JSONInput"
 import JSONTreeFlow from "../../components/JSONTreeFlow"
 import JSONPathSearchBar from "../../components/JSONPathSearchBar"
 import { ReactFlowProvider } from "@xyflow/react"
+import ThemeToggle from "../../components/ThemeToggle"
 
 const JSONTreeView = () => {
   const [jsonData, setJsonData] = useState<Record<string, unknown> | null>(null)
@@ -62,7 +63,12 @@ const JSONTreeView = () => {
 
   return (
     <div className="root">
-      <header className="header">JSON Tree Visualizer</header>
+      <header className="header">
+        JSON Tree Visualizer
+        <div className="themeToggleContainer">
+          <ThemeToggle />
+        </div>
+      </header>
 
       <div className="body">
         <JSONInput setJsonData={setJsonData} />

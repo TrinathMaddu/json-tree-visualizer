@@ -4,7 +4,7 @@
   position: relative;
   min-height: 100vh;
   padding: 90px 16px 24px;
-  background-color: #f5f5f5;
+  background-color: var(--bg);
 }
 .header {
   position: fixed;
@@ -14,8 +14,8 @@
   padding: 16px;
   z-index: 101;
   box-shadow: rgba(0, 0, 0, 0.06) 0px 8px 10px;
-  background-color: rgb(255, 255, 255);
-  color: rgb(14, 18, 27);
+  background-color: var(--panel);
+  color: var(--text-primary);
   font-size: 20px;
   font-weight: 700;
   line-height: 32px;
@@ -29,7 +29,7 @@
   flex-direction: column;
 }
 .treeSection {
-  background-color: white;
+  background-color: var(--panel);
   border-radius: 8px;
   padding: 24px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -39,7 +39,7 @@
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 16px;
-  color: #333;
+  color: var(--text-primary);
 }
 .treeContainer {
   height: 600px;
@@ -55,9 +55,13 @@
   justify-content: center;
   text-align: center;
   padding: 4px;
-  color: #666;
+  color: var(--placeholder);
   font-size: 16px;
-  background-color: #f9f9f9;
+  background-color: var(--panel);
+}
+.themeToggleContainer {
+  position: absolute;
+  right: 16px;
 }
 @media (max-width: 384px) {
   .placeholder {

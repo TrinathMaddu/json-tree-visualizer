@@ -1,0 +1,13 @@
+.themeToggle {
+  margin-left: auto;
+  border-radius: 8px;
+  border: 1px solid #666;
+  padding: 6px 10px;
+  font-size: 12px;
+  background: transparent;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+.themeToggle:hover {
+  border-color: #1976d2;
+}
