@@ -1,11 +1,13 @@
-import { Handle, Position } from "@xyflow/react"
-import { useCallback, type FC } from "react"
+import { Handle, NodeToolbar, Position } from "@xyflow/react"
+import { useCallback, useMemo, useState, type FC } from "react"
 import "./index.css"
 
 const JsonNode: FC<{
-  data: { label: string; type: string; value?: unknown }
+  data: { label: string; type: string; value?: unknown; path: string }
   selected: boolean
 }> = ({ data, selected }) => {
+  const [showTooltip, setShowTooltip] = useState(false)
+
   const getNodeClass = useCallback((type: string) => {
     switch (type) {
       case "object":
@@ -37,22 +39,38 @@ const JsonNode: FC<{
     }
   }, [])
 
+  const nodeValue = useMemo(
+    () => getNodeValue(data.type, data.value),
+    [data.type, data.value, getNodeValue]
+  )
+
+  const nodePath = useMemo(() => data.path, [data.path])
+
   return (
     <div
       className={`jsonNode ${getNodeClass(data.type)} ${
         selected ? "selectedNode" : ""
       }`}
+      onMouseEnter={() => setShowTooltip(true)}
+      onMouseLeave={() => setShowTooltip(false)}
     >
       <Handle type="target" position={Position.Top} className="handleTarget" />
       <div className="nodeLabel">{data.label}</div>
-      {data.value !== undefined && (
-        <div className="nodeValue">{getNodeValue(data.type, data.value)}</div>
-      )}
+      {data.value !== undefined && <div className="nodeValue">{nodeValue}</div>}
       <Handle
         type="source"
         position={Position.Bottom}
         className="handleSource"
       />
+
+      <NodeToolbar isVisible={showTooltip} className="nodeTooltip">
+        <div>
+          <strong>Path:</strong> {nodePath}
+        </div>
+        <div>
+          <strong>Value:</strong> {nodeValue}
+        </div>
+      </NodeToolbar>
     </div>
   )
 }

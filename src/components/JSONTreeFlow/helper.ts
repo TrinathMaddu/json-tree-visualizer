@@ -50,7 +50,8 @@ export const transformJsonToFlow = (
       nodeValue = value
     }
 
-    const currentPath = `${path}${path ? "." : ""}${key}`
+    const isArrayItem = key && key[0] === "[" && key[key.length - 1] === "]"
+    const currentPath = `${path}${path && !isArrayItem ? "." : ""}${key}`
     pathToNodeIdMap.set(currentPath, currentId)
     nodeIdToPathMap.set(currentId, currentPath)
 

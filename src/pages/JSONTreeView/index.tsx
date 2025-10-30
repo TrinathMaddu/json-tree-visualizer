@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import "@xyflow/react/dist/style.css"
 import "./index.css"
 import JSONInput from "../../components/JSONInput"
@@ -13,6 +13,22 @@ const JSONTreeView = () => {
     ""
   )
   const [nodePathToSearch, setNodePathToSearch] = useState<string>("")
+  const treeSectionRef = useRef<HTMLDivElement>(null)
+  const timeoutRef = useRef<number | null>(null)
+
+  const scrollTreeSectionToTop = useCallback(() => {
+    if (treeSectionRef.current) {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+      }
+      timeoutRef.current = setTimeout(() => {
+        treeSectionRef.current?.scrollIntoView?.({
+          behavior: "smooth",
+          block: "center"
+        })
+      }, 300)
+    }
+  }, [])
 
   const findNodeByPath = () => {
     const trimmedSearchPath = searchPath.trim()
@@ -21,6 +37,7 @@ const JSONTreeView = () => {
     }
     setSearchPath(trimmedSearchPath)
     setNodePathToSearch(trimmedSearchPath)
+    scrollTreeSectionToTop()
   }
 
   const updateSearchResult = (isMatch: boolean) => {
@@ -32,6 +49,17 @@ const JSONTreeView = () => {
     setNodePathToSearch("")
   }
 
+  useEffect(() => {
+    if (jsonData) {
+      scrollTreeSectionToTop()
+    }
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+      }
+    }
+  }, [jsonData, scrollTreeSectionToTop])
+
   return (
     <div className="root">
       <header className="header">JSON Tree Visualizer</header>
@@ -39,7 +67,7 @@ const JSONTreeView = () => {
       <div className="body">
         <JSONInput setJsonData={setJsonData} />
 
-        <div className="treeSection">
+        <div className="treeSection" ref={treeSectionRef}>
           <h2 className="sectionTitle">Tree Visualization</h2>
           <div className="treeContainer">
             {jsonData ? (

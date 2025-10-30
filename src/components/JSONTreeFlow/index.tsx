@@ -4,9 +4,10 @@ import {
   ReactFlow,
   Background,
   Controls,
-  useReactFlow
+  useReactFlow,
+  Panel
 } from "@xyflow/react"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import {
   appendRootNode,
   getDescendantNodes,
@@ -34,6 +35,29 @@ const JSONTreeFlow = ({
   const [pathToNodeIdMap, setPathToNodeIdMap] = useState<Map<string, string>>(
     new Map()
   )
+  const [copiedNodeId, setCopiedNodeId] = useState<string>("")
+  const [showCopiedMessage, setShowCopiedMessage] = useState<boolean>(false)
+  const copiedMessageTimeoutRef = useRef<number | null>(null)
+
+  useEffect(() => {
+    if (showCopiedMessage) {
+      copiedMessageTimeoutRef.current = setTimeout(() => {
+        setCopiedNodeId("")
+        setShowCopiedMessage(false)
+      }, 2000)
+    }
+    return () => {
+      if (copiedMessageTimeoutRef.current) {
+        clearTimeout(copiedMessageTimeoutRef.current)
+      }
+    }
+  }, [showCopiedMessage])
+
+  useEffect(() => {
+    if (copiedNodeId) {
+      setShowCopiedMessage(true)
+    }
+  }, [copiedNodeId])
 
   const getNodeIdFromPath = (path: string) => {
     return pathToNodeIdMap.get(path)
@@ -46,6 +70,24 @@ const JSONTreeFlow = ({
     const subtreeNodes = clickedNode
       ? [clickedNode, ...descendantNodes]
       : descendantNodes
+
+    if (clickedNode) {
+      try {
+        navigator.clipboard
+          .writeText(clickedNode.data.path as string)
+          .then(() => {
+            if (showCopiedMessage) {
+              setShowCopiedMessage(false)
+            }
+            setCopiedNodeId(clickedNode.id)
+          })
+          .catch((error) => {
+            console.error("Error copying path to clipboard:", error)
+          })
+      } catch (error) {
+        console.error("Error copying path to clipboard:", error)
+      }
+    }
 
     fitView({
       nodes: subtreeNodes,
@@ -115,6 +157,7 @@ const JSONTreeFlow = ({
       nodesDraggable={false}
       nodesConnectable={false}
       elementsSelectable={true}
+      minZoom={0.1}
       nodeTypes={{
         jsonNode: JsonNode
       }}
@@ -123,6 +166,12 @@ const JSONTreeFlow = ({
       <Background />
       <Controls showZoom={true} showFitView={true} showInteractive={false} />
       <DownloadButton />
+
+      {showCopiedMessage && (
+        <Panel position="top-center">
+          <div className="pathCopiedMessage">Path copied to clipboard!</div>
+        </Panel>
+      )}
     </ReactFlow>
   )
 }
