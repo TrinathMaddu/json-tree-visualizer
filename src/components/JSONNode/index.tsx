@@ -15,6 +15,7 @@ const JsonNode: FC<{
       case "string":
       case "number":
       case "boolean":
+      case "null":
         return "primitiveNode"
       default:
         return "defaultNode"
@@ -25,12 +26,12 @@ const JsonNode: FC<{
     switch (type) {
       case "array":
       case "object":
-        return value as string
+      case "number":
+        return value as string | number
       case "string":
         return `"${value}"`
-      case "number":
-        return value as number
       case "boolean":
+      case "null":
       default:
         return String(value)
     }
@@ -38,10 +39,9 @@ const JsonNode: FC<{
 
   return (
     <div
-      className={`jsonNode ${getNodeClass(data.type)}`}
-      style={{
-        border: selected ? "1.5px solid #4C6EF5" : "1px solid #ccc"
-      }}
+      className={`jsonNode ${getNodeClass(data.type)} ${
+        selected ? "selectedNode" : ""
+      }`}
     >
       <Handle type="target" position={Position.Top} className="handleTarget" />
       <div className="nodeLabel">{data.label}</div>
