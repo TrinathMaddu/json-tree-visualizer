@@ -27,4 +27,12 @@
   background-color: #1976d2;
   border-radius: 4px;
   border: 1px solid #1565c0;
+  white-space: nowrap;
+}
+@media (max-width: 384px) {
+  .matchFoundMessage,
+  .matchNotFoundMessage,
+  .pathCopiedMessage {
+    font-size: 12px;
+  }
 }

@@ -64,3 +64,19 @@
   cursor: pointer;
   transition: all 0.2s;
 }
+@media (max-width: 384px) {
+  .textarea,
+  .errorMessage,
+  .buttonPrimary,
+  .buttonSecondary {
+    font-size: 12px;
+  }
+  .title {
+    font-size: 18px;
+  }
+
+  .buttonPrimary,
+  .buttonSecondary {
+    padding: 8px 16px;
+  }
+}

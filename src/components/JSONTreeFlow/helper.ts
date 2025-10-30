@@ -40,11 +40,11 @@ export const transformJsonToFlow = (
     } else if (Array.isArray(value)) {
       nodeType = "array"
       arrayLength = value.length
-      nodeValue = `[${arrayLength} item${arrayLength > 1 ? "s" : ""}]`
+      nodeValue = `[${arrayLength} item${arrayLength !== 1 ? "s" : ""}]`
     } else if (typeof value === "object") {
       nodeType = "object"
       keysLength = Object.keys(value).length
-      nodeValue = `{${keysLength} key${keysLength > 1 ? "s" : ""}}`
+      nodeValue = `{${keysLength} key${keysLength !== 1 ? "s" : ""}}`
     } else {
       nodeType = typeof value
       nodeValue = value

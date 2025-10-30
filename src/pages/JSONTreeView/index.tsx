@@ -37,12 +37,12 @@ const JSONTreeView = () => {
     }
     setSearchPath(trimmedSearchPath)
     setNodePathToSearch(trimmedSearchPath)
-    scrollTreeSectionToTop()
   }
 
   const updateSearchResult = (isMatch: boolean) => {
     if (isMatch) {
       setIsMatchFound("found")
+      scrollTreeSectionToTop()
     } else {
       setIsMatchFound("not-found")
     }
